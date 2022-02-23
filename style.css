@@ -1,0 +1,42 @@
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white
+}
+label {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #a4a4a4;
+}
+input {
+    margin-top: 5px;
+    background-color: #161616;
+    border-color: #313131;
+    color: white;
+    width: 80%;
+    padding: 5px;
+}
+input:focus {
+    background-color: white;
+    border-color: #313131;
+    color: black;
+}
+button {
+    background-color: #232323;
+    color: white;
+    border-radius: 15px;
+    border-color: #545454;
+    padding: 5px 15px 5px 15px;
+}
+button#import-button {
+    margin-left: 5px;
+}
+select {
+    background-color: #1d1d1d;
+    color: white;
+    padding: 5px;
+}
+#top {
+    width: 100%;
+}
+#bottom {
+    margin-top: 20px;
+}
