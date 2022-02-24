@@ -1,0 +1,15 @@
+{
+    "tweetData": {
+        "username": "Arturo Bracero",
+        "handle": "@squaree",
+        "tweet-text": "Texto de tweet de prueba. Maximo 280 characters",
+        "retweet": "1233",
+        "replies": "2423",
+        "likes": "3920",
+        "source": "Twitter para iPhone",
+        "created-at": "22 de febrero de 2022"
+    },
+    "userData": {
+
+    }
+}

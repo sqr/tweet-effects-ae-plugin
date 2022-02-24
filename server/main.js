@@ -24,9 +24,10 @@ app.get('/tweet/:id', async (req, res) => {
 app.post('/tweet', async (req, res) => {
     console.log(req.body)
     const { id, location } = req.body
+    // Example of location value: /i/huffpost/2022/febrero
     console.log(id)
     console.log(location)
-    const tweet = await processTweet(id)
+    const tweet = await processTweet(id, location)
     res.json(tweet)
 })
 
