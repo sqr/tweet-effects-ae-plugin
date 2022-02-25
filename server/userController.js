@@ -30,5 +30,4 @@ async function storeUserAvatar(avatarUrl) {
     }
 }
 
-storeUserAvatar()
 module.exports = { processUser }

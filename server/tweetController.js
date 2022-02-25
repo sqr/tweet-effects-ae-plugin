@@ -32,22 +32,19 @@ function validateId(id) {
     return id
 }
 
-async function createDirectory(id, location) {
+async function createDirectory(id, username, location) {
+    const dir = directoryTransform(location)
+    const dirAppend = `${username}_${id}`
+    const tweetDir = `${dir}/${dirAppend}`
     try {
-        // TO-DO
-        // Turn this /i/huffpost/2022/febrero
-        // into this I:/huffpost/2022/febrero/
-        //
-        // Directory should be /username_tweetid
-        //
-        await fs.mkdir('I:/huffpost/2022/febrero/tmp');
-        console.log('successfully created /tmp/hello');
+        await fs.mkdir(tweetDir);
+        console.log(`Successfully created ${tweetDir}`);
       } catch (error) {
         console.error('there was an error:', error.message);
       }
 }
 
-async function storeTweetData() {
+async function storeTweetData(id, tweetDir) {
     const user = {
         "id": 1,
         "name": "John Doe",
@@ -57,7 +54,7 @@ async function storeTweetData() {
     const data = JSON.stringify(user)
 
     try {
-        await fs.writeFile('data.json', data)
+        await fs.writeFile(`${tweetDir}/data.json`, data)
         console.log('JSON data stored locally')
     } catch (error) {
         console.error(`Error storing tweet data locally: ${error}`)
@@ -69,6 +66,17 @@ function storeTweetMedia() {
 
 }
 
-storeTweetData()
+function directoryTransform(location) {
+    const separator = '/'
+    const dirArray = location.split('/')
+    dirArray[1] += ':'
+    dirArray.shift()
+    const dir = dirArray.join(separator)
+    console.log(dir)
 
+    return dir
+}
+
+createDirectory('1231233', 'lollerman', '/i/huffpost/2022/febrero')
+storeTweetData('1231233','i:/huffpost/2022/febrero/lollerman_1231233')
 module.exports = { processTweet }
