@@ -10,22 +10,21 @@ async function processTweet(id, location) {
         const tweet = await client.v2.singleTweet(id, {
             "tweet.fields": ['created_at', 'attachments', 'public_metrics', 'source'],
             expansions: [
-              'author_id',
-              'entities.mentions.username',
-              'in_reply_to_user_id',
+                'author_id',
+                'entities.mentions.username',
+                'in_reply_to_user_id',
             ],
         });
         console.log(tweet)
-    } catch (error) {
-        console.error('Error fetching tweet:', error.message);
-    }
-
-    try {
+        const authorUsername = tweet.includes.users[0].username
+        const tweetDir = await createDirectory(id, authorUsername, location)
+        await storeTweetData(id, tweet, tweetDir)
         const user = await processUser(tweet.data.author_id, location)
+        return user
     } catch (error) {
-        console.error('Error fetching user:', error.message);
+        console.error('Error processing tweet:', error.message);
+        return error
     }
-    return user
 }
 
 function validateId(id) {
@@ -39,19 +38,28 @@ async function createDirectory(id, username, location) {
     try {
         await fs.mkdir(tweetDir);
         console.log(`Successfully created ${tweetDir}`);
+        return tweetDir
       } catch (error) {
         console.error('there was an error:', error.message);
       }
 }
 
-async function storeTweetData(id, tweetDir) {
-    const user = {
-        "id": 1,
-        "name": "John Doe",
-        "age": 32
+async function storeTweetData(id, tweet, tweetDir) {
+    const exampleData = {
+    "tweetData": {
+        "username": "Arturo Bracero",
+        "handle": "@squaree",
+        "tweet-text": "Texto de tweet de prueba. Maximo 280 characters",
+        "retweet": "1233",
+        "replies": "2423",
+        "likes": "3920",
+        "source": "Twitter para iPhone",
+        "created-at": "22 de febrero de 2022"
+        },
+    "userData": {
+        }
     }
-
-    const data = JSON.stringify(user)
+    const data = JSON.stringify(tweet)
 
     try {
         await fs.writeFile(`${tweetDir}/data.json`, data)
@@ -59,7 +67,6 @@ async function storeTweetData(id, tweetDir) {
     } catch (error) {
         console.error(`Error storing tweet data locally: ${error}`)
     }
-
 }
 
 function storeTweetMedia() {
@@ -77,6 +84,9 @@ function directoryTransform(location) {
     return dir
 }
 
-createDirectory('1231233', 'lollerman', '/i/huffpost/2022/febrero')
-storeTweetData('1231233','i:/huffpost/2022/febrero/lollerman_1231233')
+//createDirectory('1231233', 'lollerman', '/i/huffpost/2022/febrero')
+//storeTweetData('1231233','i:/huffpost/2022/febrero/lollerman_1231233')
+
+processTweet('1497176346744979458', '/i/huffpost/2022/febrero')
+
 module.exports = { processTweet }
